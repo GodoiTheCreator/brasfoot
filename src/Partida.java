@@ -1,3 +1,5 @@
+import time.Time;
+
 public class Partida {
 
     private Time timeUm, timeDois;

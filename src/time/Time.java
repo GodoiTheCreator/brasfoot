@@ -1,10 +1,25 @@
+package time;
+
 public class Time {
 
     private String nome;
     private int pontos, jogos, vitorias, empates, derrotas, saldo, gp, gc;
-    private double aproveitamento;
+    private double rendimento;
 
-    public Time(String nome, int pontos, int jogos, int vitorias, int empates, int derrotas, int saldo, int gp, int gc, double aproveitamento) {
+    public Time(String[] valores) {
+        this.nome = valores[0];
+        this.pontos = Integer.parseInt(valores[1]);
+        this.jogos = Integer.parseInt(valores[2]);
+        this.vitorias = Integer.parseInt(valores[3]);
+        this.empates = Integer.parseInt(valores[4]);
+        this.derrotas = Integer.parseInt(valores[5]);
+        this.saldo = Integer.parseInt(valores[6]);
+        this.gp = Integer.parseInt(valores[7]);
+        this.gc = Integer.parseInt(valores[8]);
+        this.rendimento = (double) (pontos /((double) jogos * 3));
+    }
+
+    public Time(String nome, int pontos, int jogos, int vitorias, int empates, int derrotas, int saldo, int gp, int gc, double rendimento) {
         this.nome = nome;
         this.pontos = pontos;
         this.jogos = jogos;
@@ -14,7 +29,7 @@ public class Time {
         this.saldo = saldo;
         this.gp = gp;
         this.gc = gc;
-        this.aproveitamento = aproveitamento;
+        this.rendimento = rendimento;
     }
 
     public String getNome() {
@@ -89,17 +104,17 @@ public class Time {
         this.gc = gc;
     }
 
-    public double getAproveitamento() {
-        return aproveitamento;
+    public double getRendimento() {
+        return rendimento;
     }
 
-    public void setAproveitamento(double aproveitamento) {
-        this.aproveitamento = aproveitamento;
+    public void setRendimento(double rendimento) {
+        this.rendimento = rendimento;
     }
 
     @Override
     public String toString() {
-        return "Time{" +
+        return "time.Time{" +
                 "nome='" + nome + '\'' +
                 ", pontos=" + pontos +
                 ", jogos=" + jogos +
@@ -109,7 +124,7 @@ public class Time {
                 ", saldo=" + saldo +
                 ", gp=" + gp +
                 ", gc=" + gc +
-                ", aproveitamento=" + aproveitamento +
+                ", rendimento=" + rendimento +
                 '}';
     }
 }
