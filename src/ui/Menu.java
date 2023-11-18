@@ -24,44 +24,52 @@ public class Menu {
         caminhoArquivo = "src\\arquivotabela\\tabela_brasileirao.csv";
         List<Time> listaTimes = new ArrayList<Time>();
 
-        do {
+        try {
 
-            try {
+            in = new BufferedReader(new FileReader(caminhoArquivo));
+
+            int i = 0;
+            while ((linha = in.readLine()) != null) { // Faz a leitura do arquivo
+                String[] valores = linha.split(",");
+
+                if (i != 0) {
+                    listaTimes.add(new Time(valores));
+                } else {
+                    i = 1;
+                }
+            }
+
+            do {
                 Opcoes.mostrarOpcoes();
                 opcao = teclado.nextInt();
 
-                if(opcao < 0 || opcao >= Opcoes.values().length) { throw new InputMismatchException(); }
+                if (opcao < 0 || opcao >= Opcoes.values().length) {
+                    throw new InputMismatchException();
+                }
 
                 if (Opcoes.values()[opcao] == Opcoes.MOSTRAR_TABELA) {
 
-                    in = new BufferedReader(new FileReader(caminhoArquivo));
-
-                    int i = 0;
-
-                    while ((linha = in.readLine()) != null) {
-                        String[] valores = linha.split(",");
-
-                        if (i != 0) {
-                            listaTimes.add(new Time(valores));
-                        } else {
-                            i = 1;
-                        }
-                    }
-
-                    imprimirTabela(listaTimes);
+                    Opcoes.imprimirTabela(listaTimes);
                 }
-            } catch (IOException e) {
-                System.out.println("\nNao foi possivel abrir o arquivo no caminho: " + caminhoArquivo);
-            } catch (InputMismatchException e) {
-                System.out.println("\nOpcao invalida.\n");
-                teclado.nextLine();
-            }
-        }while(opcao != 0);
+
+                if (Opcoes.values()[opcao] == Opcoes.ADICIONAR_TIME) {
+                    System.out.println("");
+                }
+
+            } while (opcao != 0);
+
+        } catch (IOException e) {
+            System.out.println("\nNao foi possivel abrir o arquivo no caminho: " + caminhoArquivo);
+        } catch (InputMismatchException e) {
+            System.out.println("\nOpcao invalida.\n");
+            teclado.nextLine();
+        }
+        //}while(opcao != 0);
 
         System.out.println("Programa encerrado!");
     }
 
-    public void imprimirTabela(List<Time> listaTimesinterno) {
+    /*public void imprimirTabela(List<Time> listaTimesinterno) {
 
         // Cabeçalho da tabela
         System.out.println("----------------------------------------------------------------------");
@@ -77,5 +85,5 @@ public class Menu {
         }
 
         System.out.println("----------------------------------------------------------------------");
-    }
+    }*/
 }
