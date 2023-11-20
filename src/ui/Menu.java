@@ -49,7 +49,7 @@ public class Menu {
 
                 if (Opcoes.values()[opcao] == Opcoes.MOSTRAR_TABELA) {
 
-                    Opcoes.imprimirTabela(listaTimes);
+                    Opcoes.imprimirTabela();
                 }
 
                 if (Opcoes.values()[opcao] == Opcoes.ADICIONAR_TIME) {
