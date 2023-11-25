@@ -38,22 +38,22 @@ public class Menu {
                     String[] valores = new String[9];
 
                     System.out.println("Digite as seguintes informacoes do time:");
-                    System.out.println("Nome: ");
+                    System.out.print("Nome: ");
                     valores[0] = teclado.nextLine();
-                    System.out.println("Pontos: ");
+                    System.out.print("Pontos: ");
                     valores[1] = teclado.nextLine();
-                    System.out.println("Qtd. jogos: ");
+                    System.out.print("Qtd. jogos: ");
+                    // Limitar cascata de jogos
                     valores[2] = teclado.nextLine();
-                    System.out.println("Qtd. vitorias:");
+                    System.out.print("Qtd. vitorias:");
                     valores[3] = teclado.nextLine();
-                    System.out.println("Qtd. empates: ");
+                    System.out.print("Qtd. empates: ");
                     valores[4] = teclado.nextLine();
-                    System.out.println("Qtd. derrotas: ");
+                    System.out.print("Qtd. derrotas: ");
                     valores[5] = teclado.nextLine();
-                    valores[6] = "0";
-                    System.out.println("Qtd. GP: ");
+                    System.out.print("Qtd. GP: ");
                     valores[7] = teclado.nextLine();
-                    System.out.println("Qtd. GC: ");
+                    System.out.print("Qtd. GC: ");
                     valores[8] = teclado.nextLine();
 
                     ServiceOpcoes.adicionarTime(new Time(valores));
