@@ -1,43 +1,25 @@
 package ui;
 
 import time.Time;
-import opcoes.Opcoes;
+import opcoes.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
-    private final String caminhoArquivo;
-    private BufferedReader in;
     private Scanner teclado;
+    ServiceOpcoes opcoes;
 
     public Menu() {
 
         String linha;
         int opcao = -1;
+        opcoes = new ServiceOpcoes();
+        System.out.println("service opcoes inicializado");
+
         teclado = new Scanner(System.in);
-        caminhoArquivo = "src\\arquivotabela\\tabela_brasileirao.csv";
-        List<Time> listaTimes = new ArrayList<Time>();
 
         try {
-
-            in = new BufferedReader(new FileReader(caminhoArquivo));
-
-            int i = 0;
-            while ((linha = in.readLine()) != null) { // Faz a leitura do arquivo
-                String[] valores = linha.split(",");
-
-                if (i != 0) {
-                    listaTimes.add(new Time(valores));
-                } else {
-                    i = 1;
-                }
-            }
 
             do {
                 Opcoes.mostrarOpcoes();
@@ -49,41 +31,41 @@ public class Menu {
 
                 if (Opcoes.values()[opcao] == Opcoes.MOSTRAR_TABELA) {
 
-                    Opcoes.imprimirTabela();
+                    ServiceOpcoes.imprimirTabela();
                 }
 
                 if (Opcoes.values()[opcao] == Opcoes.ADICIONAR_TIME) {
-                    System.out.println("");
+                    String[] valores = new String[9];
+
+                    System.out.println("Digite as seguintes informacoes do time:");
+                    System.out.println("Nome: ");
+                    valores[0] = teclado.nextLine();
+                    System.out.println("Pontos: ");
+                    valores[1] = teclado.nextLine();
+                    System.out.println("Qtd. jogos: ");
+                    valores[2] = teclado.nextLine();
+                    System.out.println("Qtd. vitorias:");
+                    valores[3] = teclado.nextLine();
+                    System.out.println("Qtd. empates: ");
+                    valores[4] = teclado.nextLine();
+                    System.out.println("Qtd. derrotas: ");
+                    valores[5] = teclado.nextLine();
+                    valores[6] = "0";
+                    System.out.println("Qtd. GP: ");
+                    valores[7] = teclado.nextLine();
+                    System.out.println("Qtd. GC: ");
+                    valores[8] = teclado.nextLine();
+
+                    ServiceOpcoes.adicionarTime(new Time(valores));
                 }
 
             } while (opcao != 0);
 
-        } catch (IOException e) {
-            System.out.println("\nNao foi possivel abrir o arquivo no caminho: " + caminhoArquivo);
         } catch (InputMismatchException e) {
             System.out.println("\nOpcao invalida.\n");
             teclado.nextLine();
         }
-        //}while(opcao != 0);
 
         System.out.println("Programa encerrado!");
     }
-
-    /*public void imprimirTabela(List<Time> listaTimesinterno) {
-
-        // Cabeçalho da tabela
-        System.out.println("----------------------------------------------------------------------");
-        System.out.printf("%-21s%-7s%-5s%-5s%-5s%-4s%-7s%-5s%-5s%-12s%n",
-                "Time", "Pts", "J", "V", "E", "D", "Saldo", "GP", "GC", "Rend.");
-        System.out.println("----------------------------------------------------------------------");
-
-        for (Time time : listaTimesinterno) {
-            System.out.printf("%-21s%-7d%-5d%-5d%-5d%-5d%-6d%-5d%-5d%-12.2f%n",
-                    time.getNome(), time.getPontos(), time.getJogos(), time.getVitorias(),
-                    time.getEmpates(), time.getDerrotas(), time.getSaldo(), time.getGp(),
-                    time.getGc(), time.getRendimento());
-        }
-
-        System.out.println("----------------------------------------------------------------------");
-    }*/
 }
