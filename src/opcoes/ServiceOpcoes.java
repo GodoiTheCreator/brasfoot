@@ -2,17 +2,15 @@ package opcoes;
 
 import time.Time;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class ServiceOpcoes {
 
-    String caminhoArquivo, caminhoArquivoSaida;
+    private String caminhoArquivo, caminhoArquivoSaida;
     static List<Time> listaTimes;
     private BufferedReader in;
     String linha;
@@ -70,6 +68,47 @@ public class ServiceOpcoes {
                 return time;
         }
         return null;
+    }
+
+    public void salvarTabela(){
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.caminhoArquivoSaida))) {
+            writer.write("NOME,PONTOS,JOGOS,VITORIAS,EMPATES,DERROTAS,SALDO,GP,GC,APROVEITAMENTO");
+            writer.newLine();
+
+            for (Time time : listaTimes) {
+                String linha = String.format("%s,%d,%d,%d,%d,%d,%d,%d,%d,%f",
+                        time.getNome(),
+                        time.getPontos(),
+                        time.getJogos(),
+                        time.getVitorias(),
+                        time.getEmpates(),
+                        time.getDerrotas(),
+                        time.getSaldo(),
+                        time.getGp(),
+                        time.getGc(),
+                        time.getRendimento());
+
+                writer.write(linha);
+                writer.newLine();
+            }
+
+            System.out.println("Tabela salva com sucesso no arquivo: " + caminhoArquivoSaida);
+        } catch (IOException e) {
+            System.err.println("Erro ao salvar a tabela no arquivo: " + e.getMessage() + "\nCriando novo arquivo e salvando a tabela atual");
+            criarNovoArquivo();
+            salvarTabela();
+        }
+    }
+
+    private void criarNovoArquivo() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(caminhoArquivoSaida))) {
+            writer.write("NOME,PONTOS,JOGOS,VITORIAS,EMPATES,DERROTAS,SALDO,GP,GC,APROVEITAMENTO");
+            writer.newLine();
+
+            System.out.println("Novo arquivo criado com sucesso: " + caminhoArquivoSaida);
+        } catch (IOException e) {
+            System.err.println("Erro ao criar um novo arquivo: " + e.getMessage());
+        }
     }
 
     public static void imprimirTabela() {

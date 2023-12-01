@@ -20,19 +20,6 @@ public class Time {
         this.rendimento = (double) (pontos /((double) jogos * 3));
     }
 
-    /*public Time(String nome, int pontos, int jogos, int vitorias, int empates, int derrotas, int saldo, int gp, int gc, double rendimento) {
-        this.nome = nome;
-        this.pontos = pontos;
-        this.jogos = jogos;
-        this.vitorias = vitorias;
-        this.empates = empates;
-        this.derrotas = derrotas;
-        this.saldo = saldo;
-        this.gp = gp;
-        this.gc = gc;
-        this.rendimento = rendimento;
-    }*/
-
     public Time(String nome) {
         this.nome = nome;
         this.pontos = 0;

@@ -35,7 +35,8 @@ public class Menu {
                 }
                 else if (Opcoes.values()[opcao] == Opcoes.ADICIONAR_TIME) {
                     System.out.print("Digite o nome do time que deseja adicionar: ");
-                    String nome = teclado.next();
+                    teclado.nextLine();
+                    String nome = teclado.nextLine();
 
                     if(!ServiceOpcoes.timeExiste(nome)) {
                         ServiceOpcoes.adicionarTime(new Time(nome));
@@ -53,22 +54,27 @@ public class Menu {
                         ServiceOpcoes.removerTime(ServiceOpcoes.getTime(nome));
                         System.out.println("\nO time "+nome+" foi removido com sucesso!\n");
                     }else {
-                        System.out.print("\nO time "+nome+" nao existe.");
+                        System.out.print("\nO time "+nome+" nao existe.\n");
                     }
                 }
                 else if(Opcoes.values()[opcao] == Opcoes.REGISTRAR_PARTIDA) {
 
                     String[] nome = new String[2];
 
+                    teclado.nextLine();
+
                     for(int i = 0; i < 2; i++) {
                         System.out.print("Digite o nome do time "+(i+1)+": ");
-                        nome[i] = teclado.next();
+                        nome[i] = teclado.nextLine();
 
                         if (!ServiceOpcoes.timeExiste(nome[i])) {
                             do {
                                 System.out.println("Este time nao existe, deseja criar um com este nome?");
                                 System.out.print("0. Encerrar programa\n1. Sim\n2. Nao\nSelecione uma opcao: ");
-                                opcao = teclado.nextInt();
+                                if(teclado.hasNextInt())
+                                    opcao = teclado.nextInt();
+                                else
+                                    opcao = -1;
                             }while(opcao < 0 || opcao > 2);
 
                             if (opcao == 0) {
@@ -80,7 +86,6 @@ public class Menu {
                     }
 
                     if(ServiceOpcoes.timeExiste(nome[0]) && ServiceOpcoes.timeExiste(nome[1])) {
-                        //System.out.println("Digite a quantidade de gols dos times:");
                         int gols[] = new int[2];
                         for(int i = 0; i < 2; i++) {
                             do {
@@ -89,6 +94,7 @@ public class Menu {
                                     gols[i] = teclado.nextInt();
                                 }else{
                                     gols[i] = -1;
+                                    teclado.next();
                                 }
                             } while(gols[i] < 0);
                         }
@@ -109,7 +115,7 @@ public class Menu {
                 opcao = 0;
             }
         } while (opcao != 0);
-
+        opcoes.salvarTabela();
         System.out.println("Programa encerrado!");
     }
 }
