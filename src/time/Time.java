@@ -13,13 +13,14 @@ public class Time {
         this.vitorias = Integer.parseInt(valores[3]);
         this.empates = Integer.parseInt(valores[4]);
         this.derrotas = Integer.parseInt(valores[5]);
-        this.saldo = Integer.parseInt(valores[6]);
+        //this.saldo = Integer.parseInt(valores[6]);
+        this.saldo = Integer.parseInt(valores[7]) - Integer.parseInt(valores[8]);
         this.gp = Integer.parseInt(valores[7]);
         this.gc = Integer.parseInt(valores[8]);
         this.rendimento = (double) (pontos /((double) jogos * 3));
     }
 
-    public Time(String nome, int pontos, int jogos, int vitorias, int empates, int derrotas, int saldo, int gp, int gc, double rendimento) {
+    /*public Time(String nome, int pontos, int jogos, int vitorias, int empates, int derrotas, int saldo, int gp, int gc, double rendimento) {
         this.nome = nome;
         this.pontos = pontos;
         this.jogos = jogos;
@@ -30,6 +31,37 @@ public class Time {
         this.gp = gp;
         this.gc = gc;
         this.rendimento = rendimento;
+    }*/
+
+    public Time(String nome) {
+        this.nome = nome;
+        this.pontos = 0;
+        this.jogos = 0;
+        this.saldo = 0;
+        this.gp = 0;
+        this.gc = 0;
+        this.rendimento = 0;
+    }
+
+    public void adicionarPartida(int golsPRO, int golsContra) {
+
+        if(golsPRO > golsContra) {
+            this.pontos += 3;
+            this.vitorias++;
+        }
+        else if(golsPRO < golsContra){
+            this.derrotas++;
+        }
+        else {
+            this.pontos++;
+            this.empates++;
+        }
+
+        this.jogos++;
+        this.gp += golsPRO;
+        this.gc += golsContra;
+        this.saldo = this.gp - this.gc;
+        this.rendimento = (double) this.pontos / (this.jogos * 3);
     }
 
     public String getNome() {

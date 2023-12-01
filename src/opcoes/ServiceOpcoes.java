@@ -7,16 +7,19 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ServiceOpcoes {
 
-    String caminhoArquivo;
+    String caminhoArquivo, caminhoArquivoSaida;
     static List<Time> listaTimes;
     private BufferedReader in;
     String linha;
 
     public ServiceOpcoes() {
-        caminhoArquivo = "src/arquivotabela/tabela_brasileirao.csv";
+        caminhoArquivo = "src/arquivostabelas/tabela_brasileirao.csv";
+        caminhoArquivoSaida = "src/arquivostabelas/tabela_brasileirao_out.csv";
 
         listaTimes = new ArrayList<Time>();
 
@@ -33,8 +36,11 @@ public class ServiceOpcoes {
                     i = 1;
                 }
             }
-        }catch(IOException e) {
-            System.out.println("\nNao foi possivel abrir o arquivo no caminho: " + caminhoArquivo);
+
+            in.close();
+
+        } catch (IOException e) {
+            System.out.println("\nNao foi possivel encontrar o arquivo no caminho: " + caminhoArquivo);
         }
     }
 
@@ -42,22 +48,34 @@ public class ServiceOpcoes {
         listaTimes.add(time);
     }
 
-    public void registrarPartida(Time timeUm, Time timeDois, int golsUm, int golsDois){
-        if(golsUm > golsDois){
-            timeUm.setVitorias(timeUm.getVitorias() + 1);
-            timeDois.setDerrotas(timeDois.getDerrotas() + 1);
-            return;
+    public static void removerTime(Time time) { listaTimes.remove(time); }
+
+    public static void registrarPartida(Time timeUm, Time timeDois, int golsUm, int golsDois) {
+        timeUm.adicionarPartida(golsUm, golsDois);
+        timeDois.adicionarPartida(golsDois, golsUm);
+    }
+
+    public static boolean timeExiste(String nomeTime) {
+        for (Time time : listaTimes) {
+            if(time.getNome().equalsIgnoreCase(nomeTime))
+                return true;
         }
-        if(golsUm < golsDois){
-            timeDois.setVitorias(timeDois.getVitorias() + 1);
-            timeUm.setDerrotas(timeUm.getDerrotas() + 1);
-            return;
+
+        return false;
+    }
+
+    public static Time getTime(String nomeTime) {
+        for (Time time : listaTimes) {
+            if(time.getNome().equalsIgnoreCase(nomeTime))
+                return time;
         }
-        timeUm.setEmpates(timeUm.getEmpates() + 1);
-        timeDois.setEmpates(timeDois.getEmpates() + 1);
+        return null;
     }
 
     public static void imprimirTabela() {
+
+        // Garante que a lista seja ordenada pela pontuação do maior para o menor
+        Collections.sort(listaTimes, Comparator.comparingInt(Time::getPontos).reversed());
 
         // Cabeçalho da tabela
         System.out.println("----------------------------------------------------------------------");
