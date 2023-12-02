@@ -10,15 +10,13 @@ import java.util.List;
 
 public class ServiceOpcoes {
 
-    private String caminhoArquivo, caminhoArquivoSaida;
+    private String caminhoArquivo;
     static List<Time> listaTimes;
     private BufferedReader in;
     String linha;
 
     public ServiceOpcoes() {
         caminhoArquivo = "src/arquivostabelas/tabela_brasileirao.csv";
-        caminhoArquivoSaida = "src/arquivostabelas/tabela_brasileirao_out.csv";
-
         listaTimes = new ArrayList<Time>();
 
         try {
@@ -39,6 +37,9 @@ public class ServiceOpcoes {
 
         } catch (IOException e) {
             System.out.println("\nNao foi possivel encontrar o arquivo no caminho: " + caminhoArquivo);
+            System.out.println("Criando Arquivo...");
+            criarNovoArquivo();
+            System.out.println("Arquivo criado!");
         }
     }
 
@@ -71,7 +72,7 @@ public class ServiceOpcoes {
     }
 
     public void salvarTabela(){
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.caminhoArquivoSaida))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.caminhoArquivo))) {
             writer.write("NOME,PONTOS,JOGOS,VITORIAS,EMPATES,DERROTAS,SALDO,GP,GC,APROVEITAMENTO");
             writer.newLine();
 
@@ -92,7 +93,7 @@ public class ServiceOpcoes {
                 writer.newLine();
             }
 
-            System.out.println("Tabela salva com sucesso no arquivo: " + caminhoArquivoSaida);
+            System.out.println("Tabela salva com sucesso no arquivo: " + caminhoArquivo);
         } catch (IOException e) {
             System.err.println("Erro ao salvar a tabela no arquivo: " + e.getMessage() + "\nCriando novo arquivo e salvando a tabela atual");
             criarNovoArquivo();
@@ -101,11 +102,11 @@ public class ServiceOpcoes {
     }
 
     private void criarNovoArquivo() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(caminhoArquivoSaida))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(caminhoArquivo))) {
             writer.write("NOME,PONTOS,JOGOS,VITORIAS,EMPATES,DERROTAS,SALDO,GP,GC,APROVEITAMENTO");
             writer.newLine();
 
-            System.out.println("Novo arquivo criado com sucesso: " + caminhoArquivoSaida);
+            System.out.println("Novo arquivo criado com sucesso: " + caminhoArquivo);
         } catch (IOException e) {
             System.err.println("Erro ao criar um novo arquivo: " + e.getMessage());
         }

@@ -13,7 +13,6 @@ public class Time {
         this.vitorias = Integer.parseInt(valores[3]);
         this.empates = Integer.parseInt(valores[4]);
         this.derrotas = Integer.parseInt(valores[5]);
-        //this.saldo = Integer.parseInt(valores[6]);
         this.saldo = Integer.parseInt(valores[7]) - Integer.parseInt(valores[8]);
         this.gp = Integer.parseInt(valores[7]);
         this.gc = Integer.parseInt(valores[8]);
